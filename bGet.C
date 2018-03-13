@@ -35,16 +35,16 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	}
 
 	//rebin
-	double dC[12][20];
-	double wC[12][20];
+	double dC[12][20] = {};
+	double wC[12][20] = {};
 
 	for ( int c = 0; c < NCent; c++ ) {
 		for ( int ieta = 0; ieta < 12; ieta++ ) {
-			for ( int cc = pCent[c]; cc < pCent[c+1]; c++ ) {
+			for ( int cc = pCent[c]; cc < pCent[c+1]; cc++ ) {
 				dC[ieta][c] += dQ[4*ieta][cc] + dQ[4*ieta+1][cc] + dQ[4*ieta+2][cc] + dQ[4*ieta+3][cc];
 				wC[ieta][c] += dwQ[4*ieta][cc] + dwQ[4*ieta+1][cc] + dwQ[4*ieta+2][cc] + dwQ[4*ieta+3][cc];
 			}
-			dC[ieta][c] /= wC[ieta][c];
+			if (dC[ieta][c] != 0.) dC[ieta][c] /= wC[ieta][c];
 		}
 	}
 
@@ -72,11 +72,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	}
 
 	TFile * fwrite = new TFile(Form("%s/outputC_%i_%i.root", ftxt[s1], s2, s3), "recreate");
-	for ( int c = 0; c < NCent; c++ ) {
-		for ( int ieta = 0; ieta < 12; ieta++ ) {
-			hC[ieta]->Write();
-			hwC[ieta]->Write();
-		}
+	for ( int ieta = 0; ieta < 12; ieta++ ) {
+		hC[ieta]->Write();
+		hwC[ieta]->Write();
 	}
 	hNoff->Write();
 	hMult->Write();
