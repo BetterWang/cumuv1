@@ -1,1 +1,1 @@
-./runGet1.sh 2
+./runGet1.sh 16

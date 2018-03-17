@@ -43,8 +43,8 @@ void genPlot(int s1 =0)
 
 	TCanvas * cT = MakeCanvas("cT", "cT", 600, 500);
 	cT->SetGridy();
-	TH2D * hframe_eta = new TH2D("hframe_eta", "", 1, -2.5, 2.5, 1, -0.01, 0.01);
-	InitHist(hframe_eta, "#eta", "<Q_{1}^{2}Q_{2}^{*}>");
+	TH2D * hframe_eta = new TH2D("hframe_eta", "", 1, -2.5, 2.5, 1, -0.0005, 0.0005);
+	InitHist(hframe_eta, "#eta", "<Q_{1}^{2}Q_{2}^{*}>/v_{2}");
 
 	TLatex latexS;
 	latexS.SetTextFont(43);
