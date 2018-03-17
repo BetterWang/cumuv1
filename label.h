@@ -15,6 +15,10 @@ char const * fname[] = {
 	"NA",			// 12 PbPb15 MB567 ppReco
 	"NA",			// 13 PbPb15 MB567 ppReco eta08
 	"NA",			// 14 PbPb15 MB567 ppReco acc
+	"../PbPb2015_cumu/HIMinimumBias5/crab_HIMB5_V1Cumu_ppReco_poseta_effacc_v5/180316_172056/0000/",	// 15 PbPb15 MB5 ppReco acc poseta
+	"../PbPb2015_cumu/HIMinimumBias6/crab_HIMB6_V1Cumu_ppReco_poseta_effacc_v5/180316_172115/0000/",	// 16 PbPb15 MB6 ppReco acc poseta
+	"../PbPb2015_cumu/HIMinimumBias7/crab_HIMB7_V1Cumu_ppReco_poseta_effacc_v5/180316_172135/0000/",	// 17 PbPb15 MB7 ppReco acc poseta
+	"NA",			// 18 PbPb15 MB567 ppReco acc poseta
 };
 
 char const * ftxt[] = {
@@ -33,6 +37,10 @@ char const * ftxt[] = {
 	"txt/PbPb15_ppReco567/",		// 12
 	"txt/PbPb15_ppReco567_eta08/",		// 13
 	"txt/PbPb15_ppReco567_acc/",		// 14
+	"txt/PbPb15_ppReco5_poseta_acc/",	// 15
+	"txt/PbPb15_ppReco6_poseta_acc/",	// 16
+	"txt/PbPb15_ppReco7_poseta_acc/",	// 17
+	"txt/PbPb15_ppReco567_poseta_acc/",	// 18
 };
 
 #include <TChain.h>
