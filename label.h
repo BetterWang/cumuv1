@@ -23,6 +23,10 @@ char const * fname[] = {
 	"../PbPb2015_cumu/HIMinimumBias6/crab_HIMB6_V1Cumu_ppReco_effacc_b12_v5/180318_011412/0000/",		// 20 PbPb15 MB6 ppReco acc b12
 	"../PbPb2015_cumu/HIMinimumBias7/crab_HIMB7_V1Cumu_ppReco_effacc_b12_v5/180318_011428/0000/",		// 21 PbPb15 MB7 ppReco acc b12
 	"NA",		// 22 PbPb15 MB567 ppReco acc b12
+	"../PbPb2015_cumu/HIMinimumBias5/crab_HIMB5_V1Cumu_ppReco_poseta_effacc_b12_v5/180318_203943/0000/",	// 23 PbPb15 MB5 ppReco acc poseta b12
+	"../PbPb2015_cumu/HIMinimumBias6/crab_HIMB6_V1Cumu_ppReco_poseta_effacc_b12_v5/180318_204001/0000/",	// 24 PbPb15 MB6 ppReco acc poseta b12
+	"../PbPb2015_cumu/HIMinimumBias7/crab_HIMB7_V1Cumu_ppReco_poseta_effacc_b12_v5/180318_204018/0000/",	// 25 PbPb15 MB7 ppReco acc poseta b12
+	"NA",		// 26 PbPb15 MB567 ppReco acc poseta b12
 };
 
 char const * ftxt[] = {
@@ -49,6 +53,10 @@ char const * ftxt[] = {
 	"txt/PbPb15_ppReco6_b12_acc/",		// 20
 	"txt/PbPb15_ppReco7_b12_acc/",		// 21
 	"txt/PbPb15_ppReco567_b12_acc/",	// 22
+	"txt/PbPb15_ppReco5_poseta_b12_acc/",	// 23
+	"txt/PbPb15_ppReco6_poseta_b12_acc/",	// 24
+	"txt/PbPb15_ppReco7_poseta_b12_acc/",	// 25
+	"txt/PbPb15_ppReco567_poseta_b12_acc/",	// 26
 };
 
 #include <TChain.h>
