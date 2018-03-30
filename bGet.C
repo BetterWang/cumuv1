@@ -16,18 +16,18 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	TH1D * hNoff = (TH1D*) f->Get("hNoff");
 	TH1D * hMult = (TH1D*) f->Get("hMult");
 
-	TH1D * hrQ1Q1_Q2[48] = {};
-	TH1D * hwQ1Q1_Q2[48] = {};
+	TH1D * hrQ1Q1_Q2[12] = {};
+	TH1D * hwQ1Q1_Q2[12] = {};
 
-	for ( int i = 0; i < 48; i++ ) {
+	for ( int i = 0; i < 12; i++ ) {
 		hrQ1Q1_Q2[i] = (TH1D*) f->Get(Form("hrQ1Q1_Q2_%i", i));
 		hwQ1Q1_Q2[i] = (TH1D*) f->Get(Form("hwQ1Q1_Q2_%i", i));
 	}
 
-	double dQ[48][200] = {};
-	double dwQ[48][200] = {};
+	double dQ[12][200] = {};
+	double dwQ[12][200] = {};
 
-	for ( int i = 0; i < 48; i++ ) {
+	for ( int i = 0; i < 12; i++ ) {
 		for ( int c = 0; c < 200; c++ ) {
 			dQ[i][c]  = hrQ1Q1_Q2[i]->GetBinContent(c+1);
 			dwQ[i][c] = hwQ1Q1_Q2[i]->GetBinContent(c+1);
@@ -41,8 +41,8 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	for ( int c = 0; c < NCent; c++ ) {
 		for ( int ieta = 0; ieta < 12; ieta++ ) {
 			for ( int cc = pCent[c]; cc < pCent[c+1]; cc++ ) {
-				dC[ieta][c] += dQ[4*ieta][cc] + dQ[4*ieta+1][cc] + dQ[4*ieta+2][cc] + dQ[4*ieta+3][cc];
-				wC[ieta][c] += dwQ[4*ieta][cc] + dwQ[4*ieta+1][cc] + dwQ[4*ieta+2][cc] + dwQ[4*ieta+3][cc];
+				dC[ieta][c] += dQ[ieta][cc]; // dQ[4*ieta][cc] + dQ[4*ieta+1][cc] + dQ[4*ieta+2][cc] + dQ[4*ieta+3][cc];
+				wC[ieta][c] += dwQ[ieta][cc]; // dwQ[4*ieta][cc] + dwQ[4*ieta+1][cc] + dwQ[4*ieta+2][cc] + dwQ[4*ieta+3][cc];
 			}
 			if (dC[ieta][c] != 0.) dC[ieta][c] /= wC[ieta][c];
 		}
