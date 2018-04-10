@@ -6,7 +6,7 @@
 #include "TGraphErrors.h"
 #include "../../style.h"
 
-void genPlot(int s1 =0)
+void genPlot1(int s1 =27)
 {
 	int NCent = NCentPbPb15;
 //	const double * CentX = CentBinsPbPb15;
@@ -49,8 +49,8 @@ void genPlot(int s1 =0)
 		grV2[c] = new TGraphErrors(12);
 		for ( int i = 0; i < 12; i++ ) {
 			grC[c]->GetX()[i] = Xeta[i];
-			grC[c]->GetY()[i] = dC[i][c] / v2[c];
-			grC[c]->GetEY()[i] = sqrt( e2[c]*e2[c]/v2[c]/v2[c] + eC[i][c]*eC[i][c] / dC[i][c] / dC[i][c] ) * grC[c]->GetY()[i];
+			grC[c]->GetY()[i] = dC[i][c] / dV2[i][c];
+			grC[c]->GetEY()[i] = sqrt( eV2[i][c]*eV2[i][c]/dV2[i][c]/dV2[i][c] + eC[i][c]*eC[i][c] / dC[i][c] / dC[i][c] ) * grC[c]->GetY()[i];
 
 			grV1[c]->GetX()[i] = Xeta[i];
 			grV1[c]->GetY()[i] = dV1[i][c];
@@ -76,7 +76,7 @@ void genPlot(int s1 =0)
 
 	TCanvas * cT = MakeCanvas("cT", "cT", 600, 500);
 	cT->SetGridy();
-	TH2D * hframe_eta = new TH2D("hframe_eta", "", 1, -2.5, 2.5, 1, -0.0010, 0.0010);
+	TH2D * hframe_eta = new TH2D("hframe_eta", "", 1, -2.5, 2.5, 1, -0.0005, 0.0005);
 	InitHist(hframe_eta, "#eta", "<Q_{1}^{2}Q_{2}^{*}>/v_{2}");
 
 	TLatex latexS;
@@ -94,7 +94,7 @@ void genPlot(int s1 =0)
 	/// V1
 	TCanvas * cV1 = MakeCanvas("cV1", "cV1", 600, 500);
 	cV1->SetGridy();
-	TH2D * hframe_v1 = new TH2D("hframe_v1", "", 1, -2.5, 2.5, 1, -0.03, 0.03);
+	TH2D * hframe_v1 = new TH2D("hframe_v1", "", 1, -2.5, 2.5, 1, -0.001, 0.001);
 	InitHist(hframe_v1, "#eta", "v_{1}{RP}");
 	for ( int c = 0; c < NCent; c++ ) {
 		hframe_v1->Draw();

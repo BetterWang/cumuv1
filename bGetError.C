@@ -16,9 +16,9 @@ void bGetError(int s1 = 0, int s3 = 10)
 	double dC[12][20][50];
 	double wC[12][20][50];
 
-	double dC1[12][20] = {};
-	double dC2[12][20] = {};
-	double dwC[12][20] = {};
+	double dC1[12][20][50] = {};
+	double dC2[12][20][50] = {};
+	double dwC[12][20][50] = {};
 
 	// Get
 	for ( int fn = 0; fn <= s3; fn++ ) {
@@ -86,8 +86,8 @@ void bGetError(int s1 = 0, int s3 = 10)
 			hV1[i]->SetBinContent(c+1, dC1[i][c][s3]);
 			hV2[i]->SetBinContent(c+1, dC2[i][c][s3]);
 			hW[i] ->SetBinContent(c+1, dwC[i][c][s3]);
-			hV1[i]->SetBinError(c+1, eV1[i][c][s3]);
-			hV2[i]->SetBinError(c+1, eV2[i][c][s3]);
+			hV1[i]->SetBinError(c+1, eV1[i][c]);
+			hV2[i]->SetBinError(c+1, eV2[i][c]);
 		}
 	}
 
