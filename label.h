@@ -31,6 +31,11 @@ char const * fname[] = {
 	"../PbPb2015_cumu/MC/PionExpoPtV2/",									// 28 ToyMC V2 b12
 	"../PbPb2015_cumu/MC/PionExpoPtV1V2/",									// 29 ToyMC V1 V2 b12
 	"../PbPb2015_cumu/MC/PionExpoPtV1V2_gap/",								// 30 ToyMC V1 V2 b12 gap
+	"../PbPb2015_cumu/AMPT_PbPb5TeV_Gen/crab_AMPT1_V1_v9/180410_223116/0000/",				// 31 AMPT b12 gap
+	"../PbPb2015_cumu/HIMinimumBias5/crab_HIMB5_V1Cumu_ppReco_effacc_b12_v8/180410_232232/0000/",		// 32 PbPb15 MB5 ppReco acc b12 gap
+	"../PbPb2015_cumu/HIMinimumBias6/crab_HIMB6_V1Cumu_ppReco_effacc_b12_v8/180410_232303/0000/",		// 33 PbPb15 MB6 ppReco acc b12 gap
+	"../PbPb2015_cumu/HIMinimumBias7/crab_HIMB7_V1Cumu_ppReco_effacc_b12_v8/180410_232334/0000/",		// 34 PbPb15 MB7 ppReco acc b12 gap
+	"NA",	// 35 PbPb15 MB567 ppReco acc b12 gap
 };
 
 char const * ftxt[] = {
@@ -65,6 +70,11 @@ char const * ftxt[] = {
 	"txt/ToyMC_b12/",			// 28
 	"txt/ToyMC_V1V2_b12/",			// 29
 	"txt/ToyMC_V1V2_gap/",			// 30
+	"txt/AMPT_gap/",			// 31
+	"txt/PbPb15_ppReco5_b12_acc_gap/",	// 32
+	"txt/PbPb15_ppReco6_b12_acc_gap/",	// 33
+	"txt/PbPb15_ppReco7_b12_acc_gap/",	// 34
+	"txt/PbPb15_ppReco567_b12_acc_gap/",	// 35
 };
 
 #include <TChain.h>
