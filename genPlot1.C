@@ -76,7 +76,7 @@ void genPlot1(int s1 =27)
 
 	TCanvas * cT = MakeCanvas("cT", "cT", 600, 500);
 	cT->SetGridy();
-	TH2D * hframe_eta = new TH2D("hframe_eta", "", 1, -2.5, 2.5, 1, -0.0005, 0.0005);
+	TH2D * hframe_eta = new TH2D("hframe_eta", "", 1, -2.5, 2.5, 1, -0.00002, 0.00002);
 	InitHist(hframe_eta, "#eta", "<Q_{1}^{2}Q_{2}^{*}>/v_{2}");
 
 	TLatex latexS;
