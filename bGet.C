@@ -23,6 +23,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	TH1D * hrV2[12] = {};
 	TH1D * hwV[12] = {};
 
+	TH1D * hr3point[12] = {};
+	TH1D * hw3point[12] = {};
+
 	for ( int i = 0; i < 12; i++ ) {
 		hrQ1Q1_Q2[i] = (TH1D*) f->Get(Form("hrQ1Q1_Q2_%i", i));
 		hwQ1Q1_Q2[i] = (TH1D*) f->Get(Form("hwQ1Q1_Q2_%i", i));
@@ -30,6 +33,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 		hrV1[i] = (TH1D*) f->Get(Form("hrV1_%i", i));
 		hrV2[i] = (TH1D*) f->Get(Form("hrV2_%i", i));
 		hwV[i]  = (TH1D*) f->Get(Form("hwV_%i", i));
+
+		hr3point[i] = (TH1D*) f->Get(Form("hr3point_%i", i));
+		hw3point[i] = (TH1D*) f->Get(Form("hw3point_%i", i));
 	}
 
 	double dQ[12][200] = {};
@@ -39,6 +45,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	double dV2[12][200] = {};
 	double dwV[12][200] = {};
 
+	double drQ3[12][200] = {};
+	double dwQ3[12][200] = {};
+
 	for ( int i = 0; i < 12; i++ ) {
 		for ( int c = 0; c < 200; c++ ) {
 			dQ[i][c]  = hrQ1Q1_Q2[i]->GetBinContent(c+1);
@@ -47,6 +56,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 			dV1[i][c] = hrV1[i]->GetBinContent(c+1);
 			dV2[i][c] = hrV2[i]->GetBinContent(c+1);
 			dwV[i][c] = hwV[i]->GetBinContent(c+1);
+
+			drQ3[i][c] = hr3point[i]->GetBinContent(c+1);
+			dwQ3[i][c] = hw3point[i]->GetBinContent(c+1);
 		}
 	}
 
@@ -58,6 +70,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	double dC2[12][20] = {};
 	double dwC[12][20] = {};
 
+	double drQ3r[12][20] = {};
+	double dwQ3r[12][20] = {};
+
 	for ( int c = 0; c < NCent; c++ ) {
 		for ( int ieta = 0; ieta < 12; ieta++ ) {
 			for ( int cc = pCent[c]; cc < pCent[c+1]; cc++ ) {
@@ -66,12 +81,16 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 				dC1[ieta][c] += dV1[ieta][cc];
 				dC2[ieta][c] += dV2[ieta][cc];
 				dwC[ieta][c] += dwV[ieta][cc];
+
+				drQ3r[ieta][c] += drQ3[ieta][cc];
+				dwQ3r[ieta][c] += dwQ3[ieta][cc];
 			}
 			if (dC[ieta][c] != 0.) dC[ieta][c] /= wC[ieta][c];
 			if (dwC[ieta][c] != 0.) {
 				dC1[ieta][c] /= dwC[ieta][c];
 				dC2[ieta][c] /= dwC[ieta][c];
 			}
+			if ( dwQ3r[ieta][c] != 0. ) drQ3r[ieta][c] /= dwQ3r[ieta][c];
 		}
 	}
 
@@ -91,6 +110,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	TH1D * hV2[12];
 	TH1D * hW[12];
 
+	TH1D * hrQ3[12];
+	TH1D * hwQ3[12];
+
 	for ( int i = 0; i < 12; i++ ) {
 		hC[i]  = new TH1D(Form("hC_%i", i), "", 20, 0, 20);
 		hwC[i] = new TH1D(Form("hwC_%i", i), "", 20, 0, 20);
@@ -98,6 +120,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 		hV1[i] = new TH1D(Form("hV1_%i", i), "", 20, 0, 20);
 		hV2[i] = new TH1D(Form("hV2_%i", i), "", 20, 0, 20);
 		hW[i]  = new TH1D(Form("hW_%i", i), "", 20, 0, 20);
+
+		hrQ3[i] = new TH1D(Form("hrQ3_%i", i), "", 20, 0, 20);
+		hwQ3[i] = new TH1D(Form("hwQ3_%i", i), "", 20, 0, 20);
 	}
 
 	for ( int c = 0; c < NCent; c++ ) {
@@ -108,6 +133,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 			hV1[ieta]->SetBinContent(c+1, dC1[ieta][c]);
 			hV2[ieta]->SetBinContent(c+1, dC2[ieta][c]);
 			hW[ieta] ->SetBinContent(c+1, dwC[ieta][c]);
+
+			hrQ3[ieta]->SetBinContent(c+1, drQ3r[ieta][c]);
+			hwQ3[ieta]->SetBinContent(c+1, dwQ3r[ieta][c]);
 		}
 	}
 
@@ -119,6 +147,9 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 		hV1[ieta]->Write();
 		hV2[ieta]->Write();
 		hW[ieta]->Write();
+
+		hrQ3[ieta]->Write();
+		hwQ3[ieta]->Write();
 	}
 	hNoff->Write();
 	hMult->Write();
