@@ -37,7 +37,12 @@ char const * fname[] = {
 	"../PbPb2015_cumu/HIMinimumBias7/crab_HIMB7_V1Cumu_ppReco_effacc_b12_v8/180410_232334/0000/",		// 34 PbPb15 MB7 ppReco acc b12 gap
 	"NA",	// 35 PbPb15 MB567 ppReco acc b12 gap
 	"../PbPb2015_cumu/MC/PionExpoPtV1V2_v2/",								// 36 ToyMC V1 V2 b12 gap v1odd001
-	"../PbPb2015_cumu/AMPT_PbPb5TeV_Gen/crab_AMPT1_V1_odd_v1/180411_184616/0000/",				// 37 AMPT b12 gap v1odd
+	"../PbPb2015_cumu/AMPT_PbPb5TeV_Gen/crab_AMPT1_V1_odd_v1/180411_184616/0000/",				// 37 AMPT b12 gap v1odd001
+	"../PbPb2015_cumu/AMPT_PbPb5TeV_Gen/crab_AMPT1_V1_odd_v2/180412_143926/0000/",				// 38 AMPT b12 gap v1odd
+	"../PbPb2015_cumu/HIMinimumBias5/crab_HIMB5_V1Cumu_ppReco_effacc_b12_v9/180411_223010/0000/",		// 39 PbPb15 MB5 ppReco acc b12 gap with 3point
+	"../PbPb2015_cumu/HIMinimumBias6/crab_HIMB6_V1Cumu_ppReco_effacc_b12_v9/180411_223030/0000/",		// 40 PbPb15 MB6 ppReco acc b12 gap with 3point
+	"../PbPb2015_cumu/HIMinimumBias7/crab_HIMB7_V1Cumu_ppReco_effacc_b12_v9/180411_223122/0000/",		// 41 PbPb15 MB7 ppReco acc b12 gap with 3point
+	"NA",		// 42 PbPb15 MB567 ppReco acc b12 gap with 3point
 };
 
 char const * ftxt[] = {
@@ -78,7 +83,12 @@ char const * ftxt[] = {
 	"txt/PbPb15_ppReco7_b12_acc_gap/",	// 34
 	"txt/PbPb15_ppReco567_b12_acc_gap/",	// 35
 	"txt/ToyMC_V1V2_b12_v1odd001/",		// 36
-	"txt/AMPT_gap_v1odd/",			// 37
+	"txt/AMPT_gap_v1odd001/",		// 37
+	"txt/AMPT_gap_v1odd/",			// 38
+	"txt/PbPb15_ppReco5_b12_acc_gap_3p/",	// 39
+	"txt/PbPb15_ppReco6_b12_acc_gap_3p/",	// 40
+	"txt/PbPb15_ppReco7_b12_acc_gap_3p/",	// 41
+	"txt/PbPb15_ppReco567_b12_acc_gap_3p/",	// 42
 };
 
 #include <TChain.h>
