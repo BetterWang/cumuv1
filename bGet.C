@@ -26,6 +26,11 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	TH1D * hr3point[12] = {};
 	TH1D * hw3point[12] = {};
 
+	TH1D * hr3pPtP[8] = {};
+	TH1D * hr3pPtM[8] = {};
+	TH1D * hw3pPtP[8] = {};
+	TH1D * hw3pPtM[8] = {};
+
 	for ( int i = 0; i < 12; i++ ) {
 		hrQ1Q1_Q2[i] = (TH1D*) f->Get(Form("hrQ1Q1_Q2_%i", i));
 		hwQ1Q1_Q2[i] = (TH1D*) f->Get(Form("hwQ1Q1_Q2_%i", i));
@@ -38,6 +43,13 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 		hw3point[i] = (TH1D*) f->Get(Form("hw3point_%i", i));
 	}
 
+	for ( int i = 0; i < 8; i++ ) {
+		hr3pPtP[i] = (TH1D*) f->Get(Form("hr3pPtP_%i", i));
+		hw3pPtP[i] = (TH1D*) f->Get(Form("hw3pPtP_%i", i));
+		hr3pPtM[i] = (TH1D*) f->Get(Form("hr3pPtM_%i", i));
+		hw3pPtM[i] = (TH1D*) f->Get(Form("hw3pPtM_%i", i));
+	}
+
 	double dQ[12][200] = {};
 	double dwQ[12][200] = {};
 
@@ -47,6 +59,11 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 
 	double drQ3[12][200] = {};
 	double dwQ3[12][200] = {};
+
+	double drQ3PtP[8][200] = {};
+	double dwQ3PtP[8][200] = {};
+	double drQ3PtM[8][200] = {};
+	double dwQ3PtM[8][200] = {};
 
 	for ( int i = 0; i < 12; i++ ) {
 		for ( int c = 0; c < 200; c++ ) {
@@ -61,6 +78,14 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 			dwQ3[i][c] = hw3point[i]->GetBinContent(c+1);
 		}
 	}
+	for ( int i = 0; i < 8; i++ ) {
+		for ( int c = 0; c < 200; c++ ) {
+			drQ3PtP[i][c] = hr3pPtP[i]->GetBinContent(c+1);
+			dwQ3PtP[i][c] = hw3pPtP[i]->GetBinContent(c+1);
+			drQ3PtM[i][c] = hr3pPtM[i]->GetBinContent(c+1);
+			dwQ3PtM[i][c] = hw3pPtM[i]->GetBinContent(c+1);
+		}
+	}
 
 	//rebin
 	double dC[12][20] = {};
@@ -72,6 +97,11 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 
 	double drQ3r[12][20] = {};
 	double dwQ3r[12][20] = {};
+
+	double drQ3PtPr[8][20] = {};
+	double dwQ3PtPr[8][20] = {};
+	double drQ3PtMr[8][20] = {};
+	double dwQ3PtMr[8][20] = {};
 
 	for ( int c = 0; c < NCent; c++ ) {
 		for ( int ieta = 0; ieta < 12; ieta++ ) {
@@ -91,6 +121,18 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 				dC2[ieta][c] /= dwC[ieta][c];
 			}
 			if ( dwQ3r[ieta][c] != 0. ) drQ3r[ieta][c] /= dwQ3r[ieta][c];
+		}
+	}
+	for ( int c = 0; c < NCent; c++ ) {
+		for ( int ipt = 0; ipt < 8; ieta++ ) {
+			for ( int cc = pCent[c]; cc < pCent[c+1]; cc++ ) {
+				drQ3PtPr[ipt][c] += drQ3PtP[ipt][cc];
+				dwQ3PtPr[ipt][c] += dwQ3PtP[ipt][cc];
+				drQ3PtMr[ipt][c] += drQ3PtM[ipt][cc];
+				dwQ3PtMr[ipt][c] += dwQ3PtM[ipt][cc];
+			}
+			if ( dwQ3PtPr[ipt][c] != 0 ) drQ3PtPr[ipt][c] /= dwQ3PtPr[ipt][c];
+			if ( dwQ3PtMr[ipt][c] != 0 ) drQ3PtMr[ipt][c] /= dwQ3PtMr[ipt][c];
 		}
 	}
 
@@ -113,6 +155,11 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 	TH1D * hrQ3[12];
 	TH1D * hwQ3[12];
 
+	TH1D * hrQ3PtP[8];
+	TH1D * hwQ3PtP[8];
+	TH1D * hrQ3PtM[8];
+	TH1D * hwQ3PtM[8];
+
 	for ( int i = 0; i < 12; i++ ) {
 		hC[i]  = new TH1D(Form("hC_%i", i), "", 20, 0, 20);
 		hwC[i] = new TH1D(Form("hwC_%i", i), "", 20, 0, 20);
@@ -123,6 +170,12 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 
 		hrQ3[i] = new TH1D(Form("hrQ3_%i", i), "", 20, 0, 20);
 		hwQ3[i] = new TH1D(Form("hwQ3_%i", i), "", 20, 0, 20);
+	}
+	for ( int i = 0; i < 8; i++ ) {
+		hrQ3PtP[i] = new TH1D(Form("hrQ3PtP_%i", i), "", 20, 0, 20);
+		hwQ3PtP[i] = new TH1D(Form("hwQ3PtP_%i", i), "", 20, 0, 20);
+		hrQ3PtM[i] = new TH1D(Form("hrQ3PtM_%i", i), "", 20, 0, 20);
+		hwQ3PtM[i] = new TH1D(Form("hwQ3PtM_%i", i), "", 20, 0, 20);
 	}
 
 	for ( int c = 0; c < NCent; c++ ) {
@@ -136,6 +189,12 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 
 			hrQ3[ieta]->SetBinContent(c+1, drQ3r[ieta][c]);
 			hwQ3[ieta]->SetBinContent(c+1, dwQ3r[ieta][c]);
+		}
+		for ( int ipt = 0; ipt < 8; ipt++ ) {
+			hrQ3PtP[ipt]->SetBinContent(c+1, drQ3PtPr[ipt][c]);
+			hwQ3PtP[ipt]->SetBinContent(c+1, dwQ3PtPr[ipt][c]);
+			hrQ3PtM[ipt]->SetBinContent(c+1, drQ3PtMr[ipt][c]);
+			hwQ3PtM[ipt]->SetBinContent(c+1, dwQ3PtMr[ipt][c]);
 		}
 	}
 
@@ -151,6 +210,14 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 		hrQ3[ieta]->Write();
 		hwQ3[ieta]->Write();
 	}
+
+	for ( int ipt = 0; ipt < 8; ipt++ ) {
+		hrQ3PtP[ipt]->Write();
+		hwQ3PtP[ipt]->Write();
+		hrQ3PtM[ipt]->Write();
+		hwQ3PtM[ipt]->Write();
+	}
+
 	hNoff->Write();
 	hMult->Write();
 	hNoffR->Write();

@@ -22,6 +22,11 @@ void bGetError(int s1 = 0, int s3 = 10)
 
 	double drQ3r[12][20][50] = {};
 	double dwQ3r[12][20][50] = {};
+
+	double drQ3PtPr[8][20][50] = {};
+//	double dwQ3PtPr[8][20][50] = {};
+	double drQ3PtMr[8][20][50] = {};
+//	double dwQ3PtMr[8][20][50] = {};
 	// Get
 	for ( int fn = 0; fn <= s3; fn++ ) {
 		TFile * f = fr[fn];
@@ -34,6 +39,7 @@ void bGetError(int s1 = 0, int s3 = 10)
 
 			TH1D * h3 = (TH1D*) f->Get(Form("hrQ3_%i", i));
 			TH1D * h4 = (TH1D*) f->Get(Form("hwQ3_%i", i));
+
 			for ( int c = 0; c < 20; c++ ) {
 				dC[i][c][fn] = h->GetBinContent(c+1);
 				wC[i][c][fn] = hw->GetBinContent(c+1);
@@ -46,6 +52,14 @@ void bGetError(int s1 = 0, int s3 = 10)
 				dwQ3r[i][c][fn] = h4->GetBinContent(c+1);
 			}
 		}
+		for ( int i = 0; i < 8; i++ ) {
+			TH1D * h1 = (TH1D*) f->Get(Form("hrQ3PtP_%i", i));
+			TH1D * h2 = (TH1D*) f->Get(Form("hrQ3PtM_%i", i));
+			for ( int c = 0; c < 20; c++ ) {
+				drQ3PtPr[i][c][fn] = h1->GetBinContent(c+1);
+				drQ3PtMr[i][c][fn] = h2->GetBinContent(c+1);
+			}
+		}
 	}
 
 	// Get Error
@@ -53,6 +67,10 @@ void bGetError(int s1 = 0, int s3 = 10)
 	double eV1[12][20] = {};
 	double eV2[12][20] = {};
 	double eQ3r[12][20] = {};
+
+	double eQ3PtPr[8][20] = {};
+	double eQ3PtMr[8][20] = {};
+
 	for ( int i = 0; i < 12; i++ ) {
 		for ( int c = 0; c < 20; c++ ) {
 			double sum = 0;
@@ -72,6 +90,18 @@ void bGetError(int s1 = 0, int s3 = 10)
 			eQ3r[i][c] = sqrt( sum3 ) / s3;
 		}
 	}
+	for ( int i = 0; i < 8; i++ ) {
+		for ( int c = 0; c < 20; c++ ) {
+			double sumP = 0.;
+			double sumM = 0.;
+			for ( int fn = 0; fn < s3; fn++ ) {
+				sumP += (drQ3PtPr[i][c][fn] - drQ3PtPr[i][c][s3]) * (drQ3PtPr[i][c][fn] - drQ3PtPr[i][c][s3]);
+				sumM += (drQ3PtMr[i][c][fn] - drQ3PtMr[i][c][s3]) * (drQ3PtMr[i][c][fn] - drQ3PtMr[i][c][s3]);
+			}
+			eQ3PtPr[i][c] = sqrt( sumP ) /s3;
+			eQ3PtMr[i][c] = sqrt( sumM ) /s3;
+		}
+	}
 
 	// Save
 	TH1D * hCR[12] = {};
@@ -84,6 +114,9 @@ void bGetError(int s1 = 0, int s3 = 10)
 	TH1D * hrQ3r[12] = {};
 	TH1D * hwQ3r[12] = {};
 
+	TH1D * hrQ3PtPr[8] = {};
+	TH1D * hrQ3PtMr[8] = {};
+
 	for ( int i = 0; i < 12; i++ ) {
 		hCR[i]  = new TH1D(Form("hCR_%i", i), "", 20, 0, 20);
 		hwCR[i] = new TH1D(Form("hwCR_%i", i), "", 20, 0, 20);
@@ -94,6 +127,11 @@ void bGetError(int s1 = 0, int s3 = 10)
 
 		hrQ3r[i]  = new TH1D(Form("hrQ3r_%i", i), "", 20, 0, 20);
 		hwQ3r[i]  = new TH1D(Form("hwQ3r_%i", i), "", 20, 0, 20);
+	}
+
+	for ( int i = 0; i < 8; i++ ) {
+		hrQ3PtPr[i]  = new TH1D(Form("hrQ3PtPr_%i", i), "", 20, 0, 20);
+		hrQ3PtMr[i]  = new TH1D(Form("hrQ3PtMr_%i", i), "", 20, 0, 20);
 	}
 
 	for ( int i = 0; i < 12; i++ ) {
@@ -113,6 +151,14 @@ void bGetError(int s1 = 0, int s3 = 10)
 			hwQ3r[i]->SetBinContent(c+1, dwQ3r[i][c][s3]);
 		}
 	}
+	for ( int i = 0; i < 12; i++ ) {
+		for ( int c = 0; c < 20; c++ ) {
+			hrQ3PtPr[i]->SetBinContent(c+1, drQ3PtPr[i][c][s3]);
+			hrQ3PtPr[i]->SetBinError(c+1,    eQ3PtPr[i][c]);
+			hrQ3PtMr[i]->SetBinContent(c+1, drQ3PtMr[i][c][s3]);
+			hrQ3PtMr[i]->SetBinError(c+1,    eQ3PtMr[i][c]);
+		}
+	}
 
 	// Write
 	TFile * fwrite = 0;
@@ -127,6 +173,10 @@ void bGetError(int s1 = 0, int s3 = 10)
 
 		hrQ3r[i]->Write();
 		hwQ3r[i]->Write();
+	}
+	for ( int i = 0; i < 8; i++ ) {
+		hrQ3PtPr[i]->Write();
+		hrQ3PtMr[i]->Write();
 	}
 	fwrite->Close();
 }

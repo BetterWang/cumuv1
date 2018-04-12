@@ -26,6 +26,11 @@ void genPlot(int s1 =0)
 	double dQ3[12][20] = {};
 	double eQ3[12][20] = {};
 
+	double dQ3PtP[8][20] = {};
+	double eQ3PtP[8][20] = {};
+	double dQ3PtM[8][20] = {};
+	double eQ3PtM[8][20] = {};
+
 	for ( int i = 0; i < 12; i++ ) {
 		TH1D * h = (TH1D*) f->Get(Form("hCR_%i", i));
 		TH1D * hv1 = (TH1D*) f->Get(Form("hV1_%i", i));
@@ -46,16 +51,32 @@ void genPlot(int s1 =0)
 		}
 	}
 
+	for ( int i = 0; i < 8; i++ ) {
+		TH1D * h1 = (TH1D*) f->Get(Form("hrQ3PtPr_%i", i));
+		TH1D * h2 = (TH1D*) f->Get(Form("hrQ3PtMr_%i", i));
+		for ( int c = 0; c < NCent; c++ ) {
+			dQ3PtP[i][c] = h1->GetBinContent(c+1);
+			eQ3PtP[i][c] = h1->GetBinError(c+1);
+			dQ3PtM[i][c] = h2->GetBinContent(c+1);
+			eQ3PtM[i][c] = h2->GetBinError(c+1);
+		}
+	}
+
 	TGraphErrors * grC[20] = {};
 	TGraphErrors * grV1[20] = {};
 	TGraphErrors * grV2[20] = {};
 
 	TGraphErrors * grQ3[20] = {};
 
+	TGraphErrors * grQ3PtP[20] = {};
+	TGraphErrors * grQ3PtM[20] = {};
+
 	for ( int c = 0; c < NCent; c++ ) {
 		grC[c] = new TGraphErrors(12);
 		grV1[c] = new TGraphErrors(12);
 		grV2[c] = new TGraphErrors(12);
+		grQ3[c] = new TGraphErrors(12);
+
 		for ( int i = 0; i < 12; i++ ) {
 			grC[c]->GetX()[i] = Xeta[i];
 			grC[c]->GetY()[i] = dC[i][c] / v2[c];
@@ -70,8 +91,8 @@ void genPlot(int s1 =0)
 			grV2[c]->GetEY()[i]= eV2[i][c];
 
 			grQ3[c]->GetX()[i] = Xeta[i];
-			grQ3[c]->GetY()[i] = dQ3[i];
-			grQ3[c]->GetEY()[i]= eQ3[i];
+			grQ3[c]->GetY()[i] = dQ3[i][c];
+			grQ3[c]->GetEY()[i]= eQ3[i][c];
 		}
 		grC[c]->SetMarkerStyle(kOpenSquare);
 		grC[c]->SetMarkerColor(kBlue);
@@ -84,8 +105,30 @@ void genPlot(int s1 =0)
 		grV2[c]->SetMarkerStyle(kOpenSquare);
 		grV2[c]->SetMarkerColor(kBlue);
 		grV2[c]->SetLineColor(kBlue);
-	}
 
+		grQ3[c]->SetMarkerStyle(kOpenSquare);
+		grQ3[c]->SetMarkerColor(kBlue);
+		grQ3[c]->SetLineColor(kBlue);
+
+		grQ3PtP[c] = new TGraphErrors(8);
+		grQ3PtM[c] = new TGraphErrors(8);
+		for ( int i = 0; i < 8; i++ ) {
+			grQ3PtP[c]->GetX()[i] = ptX[i];
+			grQ3PtP[c]->GetY()[i] = dQ3PtP[i][c];
+			grQ3PtP[c]->GetEY()[i]= eQ3PtP[i][c];
+
+			grQ3PtM[c]->GetX()[i] = ptX[i];
+			grQ3PtM[c]->GetY()[i] = dQ3PtM[i][c];
+			grQ3PtM[c]->GetEY()[i]= eQ3PtM[i][c];
+		}
+		grQ3PtP[c]->SetMarkerStyle(kOpenSquare);
+		grQ3PtP[c]->SetMarkerColor(kBlue);
+		grQ3PtP[c]->SetLineColor(kBlue);
+
+		grQ3PtM[c]->SetMarkerStyle(kOpenSquare);
+		grQ3PtM[c]->SetMarkerColor(kRed);
+		grQ3PtM[c]->SetLineColor(kRed);
+	}
 
 	TCanvas * cT = MakeCanvas("cT", "cT", 600, 500);
 	cT->SetGridy();
@@ -131,16 +174,28 @@ void genPlot(int s1 =0)
 	/// 3point
 	TCanvas * cT3 = MakeCanvas("cT3", "cT3", 600, 500);
 	cT3->SetGridy();
-	TH2D * hframe3_eta = new TH2D("hframe3_eta", "", 1, -2.5, 2.5, 1, -0.0010, 0.0010);
+	TH2D * hframe3_eta = new TH2D("hframe3_eta", "", 1, -2.5, 2.5, 1, -0.06, 0.000);
 	InitHist(hframe3_eta, "#eta", "<cos[#phi+#Psi_{1}-#Phi_{2}]>");
 
 	for ( int c = 0; c < NCent; c++ ) {
 		hframe3_eta->Draw();
 		grQ3[c]->Draw("psame");
 		latexS.DrawLatexNDC(0.68, 0.9, Form("%i-%i%%", CentBinsPbPb15[c]/2, CentBinsPbPb15[c+1]/2));
-		cT->SaveAs(Form("%s/grQ3_%i.pdf", ftxt[s1], c));
+		cT3->SaveAs(Form("%s/grQ3_%i.pdf", ftxt[s1], c));
 	}
 
+	TCanvas * cPt = MakeCanvas("cPt", "cPt", 600, 500);
+	cPt->SetGridy();
+	TH2D * hframe3_pt = new TH2D("hframe3_pt", "", 1, 0., 2.9, 1, -0.1, 0.1);
+	InitHist(hframe3_pt, "p_{T}", "<cos[#phi+#Psi_{1}-#Phi_{2}]>");
+
+	for ( int c = 0; c < NCent; c++ ) {
+		hframe3_pt->Draw();
+		grQ3PtP[c]->Draw("psame");
+		grQ3PtM[c]->Draw("psame");
+		latexS.DrawLatexNDC(0.68, 0.9, Form("%i-%i%%", CentBinsPbPb15[c]/2, CentBinsPbPb15[c+1]/2));
+		cPt->SaveAs(Form("%s/grQ3Pt_%i.pdf", ftxt[s1], c));
+	}
 
 	TFile * fwrite = new TFile(Form("%s/outGraph.root", ftxt[s1]), "recreate");
 	for ( int c = 0; c < NCent; c++ ) {
@@ -148,5 +203,7 @@ void genPlot(int s1 =0)
 		grV1[c]->Write(Form("grV1%i", c));
 		grV2[c]->Write(Form("grV2%i", c));
 		grQ3[c]->Write(Form("grQ3%i", c));
+		grQ3PtP[c]->Write(Form("grQ3PtP%i", c));
+		grQ3PtM[c]->Write(Form("grQ3PtM%i", c));
 	}
 }
