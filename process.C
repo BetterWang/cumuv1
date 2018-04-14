@@ -145,7 +145,8 @@ void process(int s1 = 0, int s2 = 10, int s3 = 10)
 			hw3point[i]->SetBinContent(c+1, dwQ3[i][c]);
 		}
 	}
-	for ( int i = 0; i < 12; i++ ) {
+
+	for ( int i = 0; i < 8; i++ ) {
 		for ( int c = 0; c < 200; c++ ) {
 			hr3pPtP[i]->SetBinContent(c+1, drQ3PtP[i][c]);
 			hw3pPtP[i]->SetBinContent(c+1, dwQ3PtP[i][c]);
