@@ -44,6 +44,7 @@ char const * fname[] = {
 	"../PbPb2015_cumu/HIMinimumBias7/crab_HIMB7_V1Cumu_ppReco_effacc_b12_v10/180412_195017/0000/",		// 41 PbPb15 MB7 ppReco acc b12 gap with 3point
 	"NA",		// 42 PbPb15 MB567 ppReco acc b12 gap with 3point
 	"../PbPb2015_cumu/AMPT_PbPb5TeV_Gen/crab_AMPT1_V1_odd003_v2/180414_230056/0000/",			// 43 AMPT b12 gap v1odd003
+	"../PbPb2015_cumu/HIMinimumBias2/crab_HIMB2_V1Cumu_pixel_sysTightB_v4/180418_213941/0000/",		// 44 PbPb15 Pixel b12 sysTightB
 };
 
 char const * ftxt[] = {
@@ -91,6 +92,7 @@ char const * ftxt[] = {
 	"txt/PbPb15_ppReco7_b12_acc_gap_3p/",	// 41
 	"txt/PbPb15_ppReco567_b12_acc_gap_3p/",	// 42
 	"txt/AMPT_gap_v1odd003/",		// 43
+	"txt/PbPb15_HIMB2_sysTightB/",		// 44
 };
 
 #include <TChain.h>
