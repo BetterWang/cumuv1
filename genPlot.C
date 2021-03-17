@@ -12,6 +12,10 @@ void genPlot(int s1 =0)
 //	const double * CentX = CentBinsPbPb15;
 
 	TFile *f = new TFile(Form("%s/outputE.root", ftxt[s1]));
+	TFile *fAMPT = 0;
+	if ( s1 == 42 ) {
+		fAMPT = new TFile("txt/AMPT_gap/outGraph.root");
+	}
 
 	SetStyle();
 
@@ -79,8 +83,14 @@ void genPlot(int s1 =0)
 
 		for ( int i = 0; i < 12; i++ ) {
 			grC[c]->GetX()[i] = Xeta[i];
-			grC[c]->GetY()[i] = dC[i][c] / v2[c];
-			grC[c]->GetEY()[i] = sqrt( e2[c]*e2[c]/v2[c]/v2[c] + eC[i][c]*eC[i][c] / dC[i][c] / dC[i][c] ) * grC[c]->GetY()[i];
+			double v2c = v2[c];
+			double e2c = e2[c];
+			if ( dV2[i][c] > 0.01 ) {
+				v2c = dV2[i][c];
+				e2c = eV2[i][c];
+			}
+			grC[c]->GetY()[i] = dC[i][c] / v2c;
+			grC[c]->GetEY()[i] = sqrt( e2c*e2c/v2c/v2c + eC[i][c]*eC[i][c] / dC[i][c] / dC[i][c] ) * grC[c]->GetY()[i];
 
 			grV1[c]->GetX()[i] = Xeta[i];
 			grV1[c]->GetY()[i] = dV1[i][c];
@@ -132,7 +142,7 @@ void genPlot(int s1 =0)
 
 	TCanvas * cT = MakeCanvas("cT", "cT", 600, 500);
 	cT->SetGridy();
-	TH2D * hframe_eta = new TH2D("hframe_eta", "", 1, -2.5, 2.5, 1, -0.0010, 0.0010);
+	TH2D * hframe_eta = new TH2D("hframe_eta", "", 1, -2.5, 0., 1, -0.0109, 0.01010);
 	InitHist(hframe_eta, "#eta", "<Q_{1}^{2}Q_{2}^{*}>/v_{2}");
 
 	TLatex latexS;
@@ -143,6 +153,13 @@ void genPlot(int s1 =0)
 	for ( int c = 0; c < NCent; c++ ) {
 		hframe_eta->Draw();
 		grC[c]->Draw("psame");
+
+		if ( fAMPT ) {
+			TGraphErrors * t = (TGraphErrors*) fAMPT->Get(Form("grC%i",c));
+			t->SetMarkerColor(kRed);
+			t->Draw("Psame");
+		}
+
 		latexS.DrawLatexNDC(0.68, 0.9, Form("%i-%i%%", CentBinsPbPb15[c]/2, CentBinsPbPb15[c+1]/2));
 		cT->SaveAs(Form("%s/grC%i.pdf", ftxt[s1], c));
 	}
@@ -174,20 +191,27 @@ void genPlot(int s1 =0)
 	/// 3point
 	TCanvas * cT3 = MakeCanvas("cT3", "cT3", 600, 500);
 	cT3->SetGridy();
-	TH2D * hframe3_eta = new TH2D("hframe3_eta", "", 1, -2.5, 2.5, 1, -0.06, 0.000);
-	InitHist(hframe3_eta, "#eta", "<cos[#phi+#Psi_{1}-#Phi_{2}]>");
+	TH2D * hframe3_eta = new TH2D("hframe3_eta", "", 1, -2.5, 2.5, 1, -0.15, 0.150);
+	InitHist(hframe3_eta, "#eta", "<cos[#phi+#Psi_{1}-2#Phi_{2}]>");
 
 	for ( int c = 0; c < NCent; c++ ) {
 		hframe3_eta->Draw();
 		grQ3[c]->Draw("psame");
+
+		if ( fAMPT ) {
+			TGraphErrors * t = (TGraphErrors*) fAMPT->Get(Form("grQ3%i",c));
+			t->SetMarkerColor(kRed);
+			t->Draw("Psame");
+		}
+
 		latexS.DrawLatexNDC(0.68, 0.9, Form("%i-%i%%", CentBinsPbPb15[c]/2, CentBinsPbPb15[c+1]/2));
 		cT3->SaveAs(Form("%s/grQ3_%i.pdf", ftxt[s1], c));
 	}
 
 	TCanvas * cPt = MakeCanvas("cPt", "cPt", 600, 500);
 	cPt->SetGridy();
-	TH2D * hframe3_pt = new TH2D("hframe3_pt", "", 1, 0., 2.9, 1, -0.1, 0.1);
-	InitHist(hframe3_pt, "p_{T}", "<cos[#phi+#Psi_{1}-#Phi_{2}]>");
+	TH2D * hframe3_pt = new TH2D("hframe3_pt", "", 1, 0., 2.9, 1, -0.3, 0.1);
+	InitHist(hframe3_pt, "p_{T}", "<cos[#phi+#Psi_{1}-2#Phi_{2}]>");
 
 	for ( int c = 0; c < NCent; c++ ) {
 		hframe3_pt->Draw();

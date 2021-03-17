@@ -2,12 +2,12 @@
 void normPhi()
 {
 	std::vector<std::string> strCent{
-//		"QWAcc0",
-//		"QWAcc10",
-//		"QWAcc20",
-//		"QWAcc30",
-//		"QWAcc40",
-//		"QWAcc50",
+		"QWAcc0",
+		"QWAcc10",
+		"QWAcc20",
+		"QWAcc30",
+		"QWAcc40",
+		"QWAcc50",
 		"QWAcc60",
 		"QWAcc70",
 		"QWAcc80",
@@ -15,7 +15,8 @@ void normPhi()
 		"QWAcc120"
 	};
 
-	TFile * f = new TFile("PbPb15_ppReco_PhiAcc.root");
+//	TFile * f = new TFile("PbPb15_ppReco_PhiAcc.root");
+	TFile * f = new TFile("PbPb15_pixel_sysTightB_PhiAcc.root");
 
 	TH2D * hPhi[20][28] = {};
 
@@ -44,7 +45,8 @@ void normPhi()
 		}
 	}
 
-	TFile * fout = new TFile("PbPb15_ppReco_normAcc.root", "recreate");
+//	TFile * fout = new TFile("PbPb15_ppReco_normAcc.root", "recreate");
+	TFile * fout = new TFile("PbPb15_pixel_sysTightB_normPhiAcc.root", "recreate");
 	for ( int c = 0; c < strCent.size(); c++ ) {
 		fout->mkdir(strCent[c].c_str());
 		fout->cd(strCent[c].c_str());

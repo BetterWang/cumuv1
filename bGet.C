@@ -124,7 +124,7 @@ void bGet(int s1 = 0, int s2 = 10, int s3 = 10)
 		}
 	}
 	for ( int c = 0; c < NCent; c++ ) {
-		for ( int ipt = 0; ipt < 8; ieta++ ) {
+		for ( int ipt = 0; ipt < 8; ipt++ ) {
 			for ( int cc = pCent[c]; cc < pCent[c+1]; cc++ ) {
 				drQ3PtPr[ipt][c] += drQ3PtP[ipt][cc];
 				dwQ3PtPr[ipt][c] += dwQ3PtP[ipt][cc];
